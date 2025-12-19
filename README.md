@@ -28,7 +28,7 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 ## ⚙️ Usage
 
 ### Option 1: Run the Batch Script
-1. Download [`ZeroTrace.bat`](link-to-raw-file)
+1. Download [`ZeroTrace.bat`](https://raw.githubusercontent.com/johnwesleyquintero/zerotrace/main/ZeroTrace.bat)
 2. **Right-click → Run as administrator**
 
 > ⚠️ Administrator rights are required for system-level cleanup.
@@ -73,7 +73,7 @@ This tool was born in the trenches of VM operations — built to be **trusted, n
 
 MIT License — free to use, modify, and distribute.
 
-**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyq)**  
+**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyquintero)**  
 Sovereign systems. Clean code. No magic.
 
 ---
