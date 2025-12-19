@@ -1,5 +1,5 @@
 # ZeroTrace
-
+ 
 A lightweight, transparent Windows cleanup utility that leaves **zero trace** behind.  
 Deletes temp files, caches, logs, update junk, and more — with real-time feedback and no telemetry.
 
@@ -37,7 +37,45 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 Perfect for VMs or automated environments:
 ```powershell
 # Download and run (requires PowerShell)
-$Url = "https://github.com/johnwesleyquintero/ZeroTrace/releases/latest/download/ZeroTrace.exe"
+$Url = "https://github.com/YOUR_NAME/zerotrace/releases/latest/download/ZeroTrace.exe"
 $OutFile = "$env:TEMP\ZeroTrace.exe"
 Invoke-WebRequest -Uri $Url -OutFile $OutFile
 Start-Process -Wait -FilePath $OutFile -Verb RunAs
+```
+
+The tool **pauses at the end** so you can review the cleanup summary — your victory lap. ✅
+
+---
+
+## 📦 Releases
+
+Pre-compiled, portable `.exe` builds are available in **[Releases](https://github.com/johnwesleyquintero/zerotrace/releases)**.  
+Each release includes:
+- `ZeroTrace.exe` (signed, admin-enabled, branded)
+- `ZeroTrace.bat` (source script)
+- `SHA256SUMS` (for integrity verification)
+
+---
+
+## 🔒 Trust & Transparency
+
+- **No network calls** — offline by design  
+- **No data collection** — zero telemetry, ever  
+- **No external dependencies** — runs on vanilla Windows 10/11  
+- **Fully auditable** — pure batch script  
+- **Compile yourself** to verify (instructions in `/build`)
+
+This tool was born in the trenches of VM operations — built to be **trusted, not just used**.
+
+---
+
+## 📜 License
+
+MIT License — free to use, modify, and distribute.
+
+**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyq)**  
+Sovereign systems. Clean code. No magic.
+
+---
+
+> 💡 **Pro Tip**: Use `ZeroTrace` in VM snapshot cleanup, dev environment resets, or before imaging machines. One click. Zero trace.
