@@ -11,53 +11,41 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 
 ---
 
-## ✅ Features
+## ✅ Features (v1.1)
 
-- 🧹 **Cleans temporary files** (`%TEMP%`, system temp)
-- 🌐 **Clears browser caches** (Chrome, Firefox, Edge)
-- 🛠️ **Removes Windows Update debris** (SoftwareDistribution, component store)
-- 📜 **Wipes event logs & Windows logs**
-- ⚡ **Deletes Prefetch files**
-- 🗑️ **Empties Recycle Bin**
-- 🌐 **Resets DNS, Winsock, and proxy settings**
-- 💾 **Shows space freed** before/after
-- 📊 **Progress indicator** for visibility
-- 🖥️ **Portable** — runs from USB, cloud, or script
-- 🔍 **100% open source** — inspect every line
+- 🧹 **Deep Temporary Cleanup**: `%TEMP%`, system temp, and local app data debris.
+- 🌐 **Expanded Browser Support**: Clears caches for Chrome, Firefox, Edge, Brave, and Opera.
+- 🛠️ **Windows Update Scrubbing**: DISM component store cleanup and SoftwareDistribution removal.
+- 📜 **Log Eradication**: Wipes system event logs and Windows diagnostic logs.
+- ⚡ **Prefetch & ShellBags**: Removes app execution history and folder view history for maximum privacy.
+- 🗑️ **Recycle Bin & Store**: Empties bin and resets Microsoft Store/Network caches.
+- 🖥️ **App-Specific Cleaning**: **New in v1.1!** Cleans caches for VS Code and Discord.
+- 🚀 **Advanced Space Reclamation**: DirectX Shader cache, crash dumps, and BranchCache.
+- 🎨 **Modern Terminal UI**: Color-coded status updates and a dynamic progress bar.
+- 🔍 **100% Open Source**: Inspect every line. No magic.
 
 ---
 
 ## ⚙️ Usage
 
-### Option 1: Run the Batch Script
-1. Download [`ZeroTrace.bat`](https://github.com/johnwesleyquintero/zerotrace/blob/main/ZeroTrace.bat)
+### Option 1: The Portable Executable (Recommended)
+The `ZeroTrace.exe` is a standalone binary that automatically requests Administrator privileges.
+1. Download [`ZeroTrace.exe`](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe)
+2. **Double-click to run.**
+
+### Option 2: Run the Batch Script
+1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/blob/main/versions/ZeroTrace_v1.1.bat)
 2. **Right-click → Run as administrator**
-
-> ⚠️ Administrator rights are required for system-level cleanup.
-
-### Option 2: Use the Portable EXE (from GitHub Releases)
-Perfect for VMs or automated environments. For `v1.0.0`:
-```powershell
-# Run in one go
-$z = "$env:TEMP\zt.exe"; irm https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe -OutFile $z; Start-Process -Wait $z -Verb RunAs; Remove-Item $z
-```
-
-The tool **pauses at the end** so you can review the cleanup summary — your victory lap. ✅
 
 ---
 
 ## 📦 Releases
 
-**ZeroTrace v1.0.0** is available now!
-- **[Download v1.0.0](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.0.0)**
-- `ZeroTrace.exe` (portable, admin-enabled executable)
-- `ZeroTrace.bat` (full source script, 100% auditable)
-- `MIT License` (free to use, modify, and distribute)
-
-Each release includes:
-- `ZeroTrace.exe` (signed, admin-enabled, branded)
-- `ZeroTrace.bat` (source script)
-- `SHA256SUMS` (for integrity verification)
+**ZeroTrace v1.1.0** (Coming Soon)
+- **Portable EXE**: Standalone, admin-enabled, and branded.
+- **Improved UI**: ANSI color support and refined progress tracking.
+- **Deep Cleaning**: Added VS Code, Discord, and ShellBag scrubbing.
+- **Performance**: Optimized disk space calculation and force-close logic for locked apps.
 
 ---
 
@@ -66,7 +54,7 @@ Each release includes:
 - **No network calls** — offline by design  
 - **No data collection** — zero telemetry, ever  
 - **No external dependencies** — runs on vanilla Windows 10/11  
-- **Fully auditable** — pure batch script  
+- **Fully auditable** — pure batch script logic wrapped in a transparent C# binary  
 
 This tool was born in the trenches of VM operations — built to be **trusted, not just used**.
 
