@@ -38,11 +38,8 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 ### Option 2: Use the Portable EXE (from GitHub Releases)
 Perfect for VMs or automated environments. For `v1.0.0`:
 ```powershell
-# Download and run in one go
-$u = "https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe"
-$o = "$env:TEMP\ZeroTrace.exe"
-Invoke-WebRequest $u -OutFile $o
-Start-Process -Wait $o -Verb RunAs
+# Run in one go
+$z = "$env:TEMP\zt.exe"; irm https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe -OutFile $z; Start-Process -Wait $z -Verb RunAs; Remove-Item $z
 ```
 
 The tool **pauses at the end** so you can review the cleanup summary — your victory lap. ✅
