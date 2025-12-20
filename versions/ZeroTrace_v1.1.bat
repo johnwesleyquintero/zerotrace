@@ -30,10 +30,10 @@ for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do
 echo [+] Initial free space: !INITIAL_SPACE_MB! MB
 
 :: ==================================================
-:: [1/12] Temp Files
+:: [1/13] Temp Files
 :: ==================================================
 echo.
-echo [1/12] Cleaning temporary files...
+echo [1/13] Cleaning temporary files...
 for /f "usebackq delims=" %%F in (`dir "%TEMP%\*" /a-d /b 2^>nul`) do (
     if exist "%TEMP%\%%F" (
         del /f /q "%TEMP%\%%F" >nul 2>&1
@@ -45,13 +45,13 @@ for /d %%p in ("%TEMP%\*.*") do (
     )
 )
 echo [+] Temp files cleaned.
-call :ProgressBar 1 12
+call :ProgressBar 1 13
 
 :: ==================================================
-:: [2/12] Browser Caches
+:: [2/13] Browser Caches
 :: ==================================================
 echo.
-echo [2/12] Clearing browser caches...
+echo [2/13] Clearing browser caches...
 
 :: Close browsers if running (optional but recommended for thorough cleaning)
 echo [!] Closing browsers to ensure deep clean...
@@ -91,13 +91,13 @@ if exist "%APPDATA%\Opera Software\Opera Stable\Cache" (
 )
 
 echo [+] Browser caches cleared.
-call :ProgressBar 2 12
+call :ProgressBar 2 13
 
 :: ==================================================
-:: [3/12] Windows Update Cleanup
+:: [3/13] Windows Update Cleanup
 :: ==================================================
 echo.
-echo [3/12] Cleaning Windows Update files...
+echo [3/13] Cleaning Windows Update files...
 dism /online /Cleanup-Image /StartComponentCleanup /NoRestart >nul 2>&1
 dism /online /Cleanup-Image /SPSuperseded /NoRestart >nul 2>&1
 
@@ -116,76 +116,76 @@ net start bits >nul 2>&1
 net start msiserver >nul 2>&1
 
 echo [+] Windows Update debris removed.
-call :ProgressBar 3 12
+call :ProgressBar 3 13
 
 :: ==================================================
-:: [4/12] Event Logs
+:: [4/13] Event Logs
 :: ==================================================
 echo.
-echo [4/12] Clearing Event Logs...
+echo [4/13] Clearing Event Logs...
 for /f "tokens=*" %%i in ('wevtutil el') do wevtutil cl "%%i" >nul 2>&1
 echo [+] Event logs cleared.
-call :ProgressBar 4 12
+call :ProgressBar 4 13
 
 :: ==================================================
-:: [5/12] Windows Logs
+:: [5/13] Windows Logs
 :: ==================================================
 echo.
-echo [5/12] Cleaning Windows logs...
+echo [5/13] Cleaning Windows logs...
 if exist "C:\Windows\Logs" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Logs\*" /a-d /b 2^>nul`) do del /f /q "C:\Windows\Logs\%%F" >nul 2>&1
 )
 echo [+] Windows logs cleaned.
-call :ProgressBar 5 12
+call :ProgressBar 5 13
 
 :: ==================================================
-:: [6/12] Prefetch
+:: [6/13] Prefetch
 :: ==================================================
 echo.
-echo [6/12] Clearing Prefetch...
+echo [6/13] Clearing Prefetch...
 if exist "C:\Windows\Prefetch" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Prefetch\*.pf" /b 2^>nul`) do del /f /q "C:\Windows\Prefetch\%%F" >nul 2>&1
 )
 echo [+] Prefetch files removed.
-call :ProgressBar 6 12
+call :ProgressBar 6 13
 
 :: ==================================================
-:: [7/12] Recycle Bin
+:: [7/13] Recycle Bin
 :: ==================================================
 echo.
-echo [7/12] Emptying Recycle Bin...
+echo [7/13] Emptying Recycle Bin...
 PowerShell.exe -Command "Clear-RecycleBin -Force -ErrorAction SilentlyContinue" >nul 2>&1
 echo [+] Recycle Bin emptied.
-call :ProgressBar 7 12
+call :ProgressBar 7 13
 
 :: ==================================================
-:: [8/12] Store Cache + Network
+:: [8/13] Store Cache + Network
 :: ==================================================
 echo.
-echo [8/12] Resetting Store cache and network...
+echo [8/13] Resetting Store cache and network...
 wsreset.exe >nul 2>&1
 ipconfig /flushdns >nul 2>&1
 netsh winsock reset >nul 2>&1
 netsh winhttp reset proxy >nul 2>&1
 echo [+] Store and network reset complete.
-call :ProgressBar 8 12
+call :ProgressBar 8 13
 
 :: ==================================================
-:: [9/12] Privacy: Recent Files & Jump Lists
+:: [9/13] Privacy: Recent Files & Jump Lists
 :: ==================================================
 echo.
-echo [9/12] Clearing Recent Files and Jump Lists...
+echo [9/13] Clearing Recent Files and Jump Lists...
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\*" >nul 2>&1
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\AutomaticDestinations\*" >nul 2>&1
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\CustomDestinations\*" >nul 2>&1
 echo [+] Privacy trails removed.
-call :ProgressBar 9 12
+call :ProgressBar 9 13
 
 :: ==================================================
-:: [10/12] System Maintenance: Cache & Error Reports
+:: [10/13] System Maintenance: Cache & Error Reports
 :: ==================================================
 echo.
-echo [10/12] Cleaning system caches and error reports...
+echo [10/13] Cleaning system caches and error reports...
 :: Thumbnail Cache
 del /f /s /q "%LocalAppData%\Microsoft\Windows\Explorer\thumbcache_*.db" >nul 2>&1
 :: Icon Cache
@@ -198,13 +198,37 @@ if exist "%LocalAppData%\Microsoft\Windows\WER\ReportQueue" rd /s /q "%LocalAppD
 :: Delivery Optimization
 if exist "C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Cache" rd /s /q "C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Cache" >nul 2>&1
 echo [+] System maintenance complete.
-call :ProgressBar 10 12
+call :ProgressBar 10 13
 
 :: ==================================================
-:: [11/12] Advanced Space Reclamation
+:: [11/13] App-Specific Caches (VS Code & Discord)
 :: ==================================================
 echo.
-echo [11/12] Reclaiming advanced disk space...
+echo [11/13] Cleaning VS Code and Discord caches...
+:: Close apps if running
+echo [!] Closing apps to ensure deep clean...
+taskkill /f /im Code.exe >nul 2>&1
+taskkill /f /im Discord.exe >nul 2>&1
+
+:: VS Code
+if exist "%AppData%\Code\Cache" rd /s /q "%AppData%\Code\Cache" >nul 2>&1
+if exist "%AppData%\Code\CachedData" rd /s /q "%AppData%\Code\CachedData" >nul 2>&1
+if exist "%AppData%\Code\GPUCache" rd /s /q "%AppData%\Code\GPUCache" >nul 2>&1
+if exist "%AppData%\Code\logs" rd /s /q "%AppData%\Code\logs" >nul 2>&1
+
+:: Discord
+if exist "%AppData%\discord\Cache" rd /s /q "%AppData%\discord\Cache" >nul 2>&1
+if exist "%AppData%\discord\Code Cache" rd /s /q "%AppData%\discord\Code Cache" >nul 2>&1
+if exist "%AppData%\discord\GPUCache" rd /s /q "%AppData%\discord\GPUCache" >nul 2>&1
+
+echo [+] App-specific caches cleared.
+call :ProgressBar 11 13
+
+:: ==================================================
+:: [12/13] Advanced Space Reclamation
+:: ==================================================
+echo.
+echo [12/13] Reclaiming advanced disk space...
 :: DirectX Shader Cache
 if exist "%LocalAppData%\D3DSCache" rd /s /q "%LocalAppData%\D3DSCache" >nul 2>&1
 if exist "%LocalAppData%\Microsoft\DirectX\ShaderCache" rd /s /q "%LocalAppData%\Microsoft\DirectX\ShaderCache" >nul 2>&1
@@ -216,13 +240,13 @@ netsh branchcache flush >nul 2>&1
 :: Cryptography SVC Task
 certutil -setreg chain\ChainCacheResyncFiletime @now >nul 2>&1
 echo [+] Advanced space reclaimed.
-call :ProgressBar 11 12
+call :ProgressBar 12 13
 
 :: ==================================================
-:: [12/12] Deep Trace Removal (Registry & Shell)
+:: [13/13] Deep Trace Removal (Registry & Shell)
 :: ==================================================
 echo.
-echo [12/12] Performing deep trace removal...
+echo [13/13] Performing deep trace removal...
 :: ShellBags (Explorer folder view history)
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU" /f >nul 2>&1
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags" /f >nul 2>&1
@@ -232,7 +256,7 @@ reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist" 
 taskkill /f /im explorer.exe >nul 2>&1
 start explorer.exe >nul 2>&1
 echo [+] Deep traces removed (Explorer restarted).
-call :ProgressBar 12 12
+call :ProgressBar 13 13
 
 :: ==================================================
 :: Summary
