@@ -2,25 +2,25 @@
 setlocal enabledelayedexpansion
 
 :: =====================================================
-:: ZeroTrace v1.6
+:: ZeroTrace v1.7
 :: Fully automated Windows cleanup utility — leaves zero trace.
-:: Cleans temp files, browser caches, prefetch, event logs, recycle bin, store/network, and runs lightweight disk scan.
+:: Cleans temp files, browser caches, prefetch, event logs, recycle bin, store/network, and runs safe disk cleanup.
 :: =====================================================
 
 :: ----------------------------
 :: Short Intro
 :: ----------------------------
 echo ==================================================
-echo ZERO TRACE v1.6 - Full System Cleanup
+echo ZERO TRACE v1.7 - Full System Cleanup
 echo --------------------------------------------------
 echo This script will:
-echo - Remove temporary files and caches
+echo - Remove user and system temporary files and caches
 echo - Clear browser caches (Chrome, Firefox, Edge)
 echo - Clean Windows Update debris
 echo - Clear Event Logs and Windows logs
 echo - Clear Prefetch and Recycle Bin
 echo - Reset Store cache and network settings
-echo - Perform disk scan and auto-clean large files
+echo - Perform safe, native Windows Disk Cleanup
 echo ==================================================
 echo.
 
@@ -57,7 +57,7 @@ call :WindowsLogsCleanup
 call :PrefetchCleanup
 call :RecycleBinCleanup
 call :StoreNetworkReset
-call :DiskScan
+call :DiskCleanupNative ; Renamed from DiskScan for clarity
 
 :: ==================================================
 :: Summary
@@ -67,7 +67,7 @@ set /a SPACE_FREED=!FINAL_SPACE_MB! - !INITIAL_SPACE_MB!
 
 echo.
 echo ==================================================
-echo ZERO TRACE v1.6 COMPLETE
+echo ZERO TRACE v1.7 COMPLETE
 echo ==================================================
 echo Initial free space: !INITIAL_SPACE_MB! MB
 echo Final free space:   !FINAL_SPACE_MB! MB
@@ -83,9 +83,15 @@ exit /b
 :: ==================================================
 :TempCleanup
 set /a STEP+=1
-echo [1/9] Cleaning temporary files...
+echo [1/9] Cleaning temporary files (user and system)...
+:: Clear user temporary files
 for /f "usebackq delims=" %%F in (`dir "%TEMP%\*" /a-d /b 2^>nul`) do del /f /q "%TEMP%\%%F" >nul 2>&1
 for /d %%p in ("%TEMP%\*.*") do rmdir "%%p" /s /q >nul 2>&1
+:: Clear system temporary files
+if exist "%SystemRoot%\Temp" (
+    for /f "usebackq delims=" %%F in (`dir "%SystemRoot%\Temp\*" /a-d /b 2^>nul`) do del /f /q "%SystemRoot%\Temp\%%F" >nul 2>&1
+    for /d %%p in ("%SystemRoot%\Temp\*.*") do rmdir "%%p" /s /q >nul 2>&1
+)
 call :ShowProgress !STEP! !TOTAL_STEPS!
 exit /b
 
@@ -129,6 +135,7 @@ exit /b
 :WindowsLogsCleanup
 set /a STEP+=1
 echo [5/9] Cleaning Windows logs...
+:: Note: Some files in C:\Windows\Logs might be locked and skipped.
 if exist "C:\Windows\Logs" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Logs\*" /a-d /b 2^>nul`) do del /f /q "C:\Windows\Logs\%%F" >nul 2>&1
 )
@@ -158,38 +165,19 @@ wsreset.exe >nul 2>&1
 ipconfig /flushdns >nul 2>&1
 netsh winsock reset >nul 2>&1
 netsh winhttp reset proxy >nul 2>&1
+echo     [!] A system reboot is often required for 'netsh winsock reset' to take full effect.
 call :ShowProgress !STEP! !TOTAL_STEPS!
 exit /b
 
-:DiskScan
+:DiskCleanupNative
 set /a STEP+=1
-echo [9/9] Running Disk Scan + Auto-Clean (Skipping system folders)...
-
-set "SCAN_ROOT=C:\"
-set "THRESHOLD_MB=1"
-set TOTAL_DELETED=0
-set TOTAL_IGNORED=0
-
-set SKIP_FOLDERS=C:\Windows\System32 C:\Windows\WinSxS C:\Program Files C:\Program Files (x86)
-
-for /r "%SCAN_ROOT%" %%F in (*) do (
-    set "SKIP=0"
-    for %%S in (%SKIP_FOLDERS%) do (
-        echo %%F | findstr /i "%%S" >nul && set SKIP=1
-    )
-    if !SKIP! EQU 0 (
-        for /f "usebackq" %%A in (`powershell -Command "(Get-Item '%%F').Length / 1MB"`) do (
-            set FILE_SIZE_MB=%%A
-            set FILE_SIZE_MB=!FILE_SIZE_MB:~0,10!
-            if !FILE_SIZE_MB! GEQ %THRESHOLD_MB% (
-                del /f /q "%%F" >nul 2>&1
-                set /a TOTAL_DELETED+=1
-            ) else (
-                set /a TOTAL_IGNORED+=1
-            )
-        )
-    )
-)
+echo [9/9] Running Native Windows Disk Cleanup...
+:: This uses cleanmgr.exe to safely remove various system temporary files.
+:: First, configure all available cleanup options (sageset:1).
+:: This configuration persists, so it only needs to be run once or when new options appear.
+cleanmgr.exe /sageset:1 >nul 2>&1
+:: Then, execute the cleanup with the configured settings (sagerun:1).
+cleanmgr.exe /sagerun:1 >nul 2>&1
 call :ShowProgress !STEP! !TOTAL_STEPS!
 exit /b
 
