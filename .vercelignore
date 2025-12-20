@@ -1,11 +1,15 @@
-# Ignore everything in the root
-/*
+# Ignore project folders that aren't part of the web build
+/assets/
+/build/
+/release/
+/versions/
 
-# Except for these specific directories/files
-!/web
-!/vercel.json
+# Ignore root documentation
+/README.md
+/LICENSE
+/VERCEL_DEPLOY.md
 
-# Standard ignore patterns
+# Standard web ignores
 node_modules
 .next
 .env*
