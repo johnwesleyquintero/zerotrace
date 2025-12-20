@@ -157,6 +157,8 @@ call :ProgressBar 8 8
 :: ==================================================
 for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do set FINAL_SPACE_MB=%%A
 for /f "usebackq" %%A in (`powershell -Command "$i=%INITIAL_SPACE_MB%; $f=%FINAL_SPACE_MB%; [math]::Round($f - $i)"`) do set SPACE_FREED=%%A
+for /f "usebackq" %%A in (`powershell -Command "[math]::Round((Get-PSDrive C).Free / 1GB, 2)"`) do set FINAL_SPACE_GB=%%A
+for /f "usebackq" %%A in (`powershell -Command "$d=Get-PSDrive C; [math]::Round(($d.Free + $d.Used) / 1GB, 2)"`) do set TOTAL_SPACE_GB=%%A
 
 echo.
 echo ==================================================
@@ -165,6 +167,8 @@ echo ==================================================
 echo Initial free space: %INITIAL_SPACE_MB% MB
 echo Final free space:   %FINAL_SPACE_MB% MB
 echo Space freed:        %SPACE_FREED% MB
+echo --------------------------------------------------
+echo Available Storage:  %FINAL_SPACE_GB% GB of %TOTAL_SPACE_GB% GB
 echo ==================================================
 echo.
 echo [OK] System cleaned. Zero trace left behind.
