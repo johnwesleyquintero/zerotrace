@@ -11,6 +11,8 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 
 ### 📥 [**Download Latest Release (v1.1.0)**](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.1.0)
 
+### 🌐 [**Official Landing Page**](https://zerotrace-ai.vercel.app/)
+
 ---
 
 > *"If it’s not needed — it’s gone."*
