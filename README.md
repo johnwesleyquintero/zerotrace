@@ -41,12 +41,12 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 The standalone binary automatically requests Administrator privileges.
 
 1. Download the version you need from the [**Releases Page**](https://github.com/johnwesleyquintero/zerotrace/releases/latest):
-   - [**ZeroTrace_v1.1.exe** (Recommended)](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.exe)
+   - [**ZeroTrace_v1.1.exe** (Recommended)](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe)
    - [**ZeroTrace.exe** (Legacy v1.0)](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.0.0/ZeroTrace.exe)
 2. **Double-click to run.**
 
 ### Option 2: Run the Batch Script
-1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.bat)
+1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.bat)
 2. **Right-click → Run as administrator**
 
 ---
@@ -55,7 +55,7 @@ The standalone binary automatically requests Administrator privileges.
 
 **ZeroTrace v1.1.0**
 - **Official Release**: [**View v1.1.0 on GitHub**](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.1.0)
-- **Portable EXE**: Standalone, admin-enabled. [**Download v1.1.0 EXE**](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace_v1.1.exe)
+- **Portable EXE**: Standalone, admin-enabled. [**Download v1.1.0 EXE**](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace.exe)
 - **Or run via PowerShell (ideal for VMs):**
 ```powershell
 $z = "$env:TEMP\zt.exe"; irm https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.exe -OutFile $z; Start-Process -Wait $z -Verb RunAs; Remove-Item $z
