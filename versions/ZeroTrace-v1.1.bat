@@ -2,17 +2,13 @@
 setlocal enabledelayedexpansion
 
 :: =====================================================
-:: ZeroTrace v1.1 - Fully Silent Version
-:: https://github.com/johnwesleyquintero/zerotrace
+:: ZeroTrace v1.1 - Silent Cleanup + Summary Only
 :: =====================================================
 
-:: Check for administrative privileges
+:: Check admin
 openfiles >nul 2>&1
 if errorlevel 1 (
-    echo.
-    echo [!] ZeroTrace requires Administrator privileges.
-    echo     Please right-click and select "Run as administrator".
-    echo.
+    echo [!] Run as administrator.
     pause
     exit /b
 )
@@ -29,7 +25,7 @@ for %%A in (%*) do (
 for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do set INITIAL_SPACE_MB=%%A
 
 :: ==================================================
-:: Cleanup Modules
+:: Cleanup (fully silent)
 :: ==================================================
 if %FULL_RUN%==1 call :TempCleanup
 if %FULL_RUN%==1 call :BrowserCacheCleanup
@@ -53,23 +49,25 @@ for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do
 for /f "usebackq" %%A in (`powershell -Command "$i=%INITIAL_SPACE_MB%; $f=%FINAL_SPACE_MB%; [math]::Round($f - $i)"`) do set SPACE_FREED=%%A
 
 echo.
+echo ==================================================
 echo ZERO TRACE v1.1 COMPLETE
+echo ==================================================
 echo Initial free space: %INITIAL_SPACE_MB% MB
 echo Final free space:   %FINAL_SPACE_MB% MB
 echo Space freed:        %SPACE_FREED% MB
+echo ==================================================
 echo.
-echo Press any key to exit...
-timeout /t -1 >nul
+echo [OK] System cleaned. Zero trace left behind.
+echo.
+pause
 exit /b
 
 :: ==================================================
-:: MODULES
+:: Cleanup Modules (all silent)
 :: ==================================================
-
 :TempCleanup
 for /f "usebackq delims=" %%F in (`dir "%TEMP%\*" /a-d /b 2^>nul`) do del /f /q "%TEMP%\%%F" >nul 2>&1
 for /d %%p in ("%TEMP%\*.*") do rmdir "%%p" /s /q >nul 2>&1
-call :ProgressBar 1 8
 exit /b
 
 :BrowserCacheCleanup
@@ -80,7 +78,6 @@ if exist "%LOCALAPPDATA%\Mozilla\Firefox\Profiles" (
     )
 )
 if exist "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" rd /s /q "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" >nul 2>&1
-call :ProgressBar 2 8
 exit /b
 
 :WindowsUpdateCleanup
@@ -95,31 +92,26 @@ net start wuauserv >nul 2>&1
 net start cryptSvc >nul 2>&1
 net start bits >nul 2>&1
 net start msiserver >nul 2>&1
-call :ProgressBar 3 8
 exit /b
 
 :EventLogsCleanup
 for /f "tokens=*" %%i in ('wevtutil el') do wevtutil cl "%%i" >nul 2>&1
-call :ProgressBar 4 8
 exit /b
 
 :WindowsLogsCleanup
 if exist "C:\Windows\Logs" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Logs\*" /a-d /b 2^>nul`) do del /f /q "C:\Windows\Logs\%%F" >nul 2>&1
 )
-call :ProgressBar 5 8
 exit /b
 
 :PrefetchCleanup
 if exist "C:\Windows\Prefetch" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Prefetch\*.pf" /b 2^>nul`) do del /f /q "C:\Windows\Prefetch\%%F" >nul 2>&1
 )
-call :ProgressBar 6 8
 exit /b
 
 :RecycleBinCleanup
 PowerShell.exe -Command "Clear-RecycleBin -Force -ErrorAction SilentlyContinue" >nul 2>&1
-call :ProgressBar 7 8
 exit /b
 
 :StoreNetworkReset
@@ -127,7 +119,6 @@ wsreset.exe >nul 2>&1
 ipconfig /flushdns >nul 2>&1
 netsh winsock reset >nul 2>&1
 netsh winhttp reset proxy >nul 2>&1
-call :ProgressBar 8 8
 exit /b
 
 :DiskScan
@@ -147,17 +138,4 @@ for /r "%SCAN_ROOT%" %%F in (*) do (
         )
     )
 )
-call :ProgressBar 9 9
-exit /b
-
-:ProgressBar
-set CURRENT_STEP=%1
-set TOTAL_STEPS=%2
-set /a PERCENT=(CURRENT_STEP*100)/TOTAL_STEPS
-set BAR=[
-set /a FILLED=(PERCENT*30)/100
-for /L %%i in (1,1,!FILLED!) do set BAR=!BAR!#
-for /L %%i in (!FILLED!,1,30) do set BAR=!BAR!-
-set BAR=!BAR!]
-echo Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete
 exit /b
