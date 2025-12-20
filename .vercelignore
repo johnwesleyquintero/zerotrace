@@ -1,0 +1,14 @@
+# Ignore everything in the root
+/*
+
+# Except for these specific directories/files
+!/web
+!/vercel.json
+
+# Standard ignore patterns
+node_modules
+.next
+.env*
+.vercel
+*.log
+.DS_Store

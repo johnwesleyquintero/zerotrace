@@ -49,8 +49,8 @@ ZeroTrace v1.1.0 is here, and it's a massive leap forward. This release transfor
 
 ---
 
-### 🙏 Made with clarity by Wesley & WesAI
-Sovereign systems. Clean code. No magic.
+### 🙏 Sovereign Systems | Built by Wesley & WesAI
+Clean code. No magic. Total control.
 
 **MIT Licensed** • **Zero Trace. Full Trust.**
 

@@ -48,8 +48,8 @@ $z = "$env:TEMP\zt.exe"; irm https://github.com/johnwesleyquintero/zerotrace/rel
 
 ---
 
-### 🙏 Made with clarity by Wesley & WesAI
-Part of the toolchain for sovereign digital systems.
+### 🙏 Sovereign Systems | Built by Wesley & WesAI
+Clean code. No magic. Total control.
 
 **MIT Licensed** • **Zero Trace. Full Trust.**
 

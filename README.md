@@ -73,8 +73,8 @@ This tool was born in the trenches of VM operations — built to be **trusted, n
 
 MIT License — free to use, modify, and distribute.
 
-**Made with clarity by Wesley & WesAI**  
-Sovereign systems. Clean code. No magic.
+**Sovereign Systems | Built by Wesley & WesAI**  
+Clean code. No magic. Total control.
 
 ---
 
