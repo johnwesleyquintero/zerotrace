@@ -2,17 +2,9 @@
 setlocal enabledelayedexpansion
 
 :: =====================================================
-:: ZeroTrace v1.1
+:: ZeroTrace v1.1 - Corrected
 :: A sovereign Windows cleanup utility — leaves zero trace.
-:: https://github.com/johnwesleyquintero/zerotrace  
-:: =====================================================
-
-:: =====================================================
-:: What's New in v1.1:
-:: - Expanded Browser Cache Support (Brave, Opera, Vivaldi)
-:: - NEW STEP: Common Application Caches (Discord, Spotify, Steam)
-:: - Enhanced Windows Log Cleanup (LogFiles, WER)
-:: - Operational Log File (zero_trace_[timestamp].log)
+:: https://github.com/johnwesleyquintero/zerotrace
 :: =====================================================
 
 :: --- Configuration ---
@@ -20,26 +12,39 @@ for /f "tokens=2 delims==" %%i in ('wmic OS Get LocalDateTime /value') do set DA
 set LOG_FILE=zero_trace_%DATETIME:~0,4%-%DATETIME:~4,2%-%DATETIME:~6,2%_%DATETIME:~8,2%-%DATETIME:~10,2%-%DATETIME:~12,2%.log
 set TOTAL_CLEANUP_STEPS=9 :: Updated for new App Caches step
 
-:: --- Logging Function ---
+:: --- Function: Log to Console AND File ---
 :LogAndEcho
 echo %~1
 echo %~1 >> "%LOG_FILE%"
 exit /b
 
-:: Check for administrative privileges
+:: --- Function: ProgressBar (Now correctly calls LogAndEcho for visibility) ---
+:ProgressBar
+set CURRENT_STEP=%1
+set TOTAL_STEPS=%2
+set /a PERCENT=(CURRENT_STEP*100)/TOTAL_STEPS
+set BAR=[
+set /a FILLED=(PERCENT*30)/100
+for /L %%i in (1,1,!FILLED!) do set BAR=!BAR!#
+for /L %%i in (!FILLED!,1,30) do set BAR=!BAR!-
+set BAR=!BAR!]
+call :LogAndEcho Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete
+exit /b
+
+:: --- Initialization ---
 openfiles >nul 2>&1
 if errorlevel 1 (
-    call :LogAndEcho.
-    call :LogAndEcho [!] ZeroTrace requires Administrator privileges.
-    call :LogAndEcho     Please right-click and select "Run as administrator".
-    call :LogAndEcho.
+    echo.
+    echo [!] ZeroTrace requires Administrator privileges.
+    echo     Please right-click and select "Run as administrator".
+    echo.
     pause
     exit /b
 )
 
 call :LogAndEcho ==================================================
 call :LogAndEcho ZeroTrace v1.1 - Leaving Zero Trace
-call :LogAndEcho https://github.com/johnwesleyquintero/zerotrace  
+call :LogAndEcho https://github.com/johnwesleyquintero/zerotrace
 call :LogAndEcho ==================================================
 call :LogAndEcho Starting system cleanup...
 call :LogAndEcho.
@@ -71,43 +76,14 @@ call :ProgressBar 1 %TOTAL_CLEANUP_STEPS%
 :: ==================================================
 call :LogAndEcho.
 call :LogAndEcho [2/%TOTAL_CLEANUP_STEPS%] Clearing browser caches...
-
-:: Chrome
-if exist "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache" (
-    rd /s /q "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache" >nul 2>&1
-)
-
-:: Firefox
-if exist "%LOCALAPPDATA%\Mozilla\Firefox\Profiles" (
-    for /d %%p in ("%LOCALAPPDATA%\Mozilla\Firefox\Profiles\*.*") do (
-        if exist "%%p\cache2\entries" (
-            rd /s /q "%%p\cache2\entries" >nul 2>&1
-        )
-    )
-)
-
-:: Edge
-if exist "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" (
-    rd /s /q "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" >nul 2>&1
-)
-
-:: Brave
-if exist "%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default\Cache" (
-    rd /s /q "%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default\Cache" >nul 2>&1
-)
-
-:: Opera
-if exist "%LOCALAPPDATA%\Programs\Opera\User Data\Default\Cache" (
-    rd /s /q "%LOCALAPPDATA%\Programs\Opera\User Data\Default\Cache" >nul 2>&1
-)
-if exist "%APPDATA%\Opera Software\Opera Stable\Cache" ( :: Older path, some systems might still have it
-    rd /s /q "%APPDATA%\Opera Software\Opera Stable\Cache" >nul 2>&1
-)
-
-:: Vivaldi
-if exist "%LOCALAPPDATA%\Vivaldi\User Data\Default\Cache" (
-    rd /s /q "%LOCALAPPDATA%\Vivaldi\User Data\Default\Cache" >nul 2>&1
-)
+:: (Browser cleanup logic remains the same as detailed before...)
+if exist "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache" ( rd /s /q "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache" >nul 2>&1 )
+if exist "%LOCALAPPDATA%\Mozilla\Firefox\Profiles" ( for /d %%p in ("%LOCALAPPDATA%\Mozilla\Firefox\Profiles\*.*") do ( if exist "%%p\cache2\entries" ( rd /s /q "%%p\cache2\entries" >nul 2>&1 ) ) )
+if exist "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" ( rd /s /q "%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Cache" >nul 2>&1 )
+if exist "%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default\Cache" ( rd /s /q "%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default\Cache" >nul 2>&1 )
+if exist "%LOCALAPPDATA%\Programs\Opera\User Data\Default\Cache" ( rd /s /q "%LOCALAPPDATA%\Programs\Opera\User Data\Default\Cache" >nul 2>&1 )
+if exist "%APPDATA%\Opera Software\Opera Stable\Cache" ( rd /s /q "%APPDATA%\Opera Software\Opera Stable\Cache" >nul 2>&1 )
+if exist "%LOCALAPPDATA%\Vivaldi\User Data\Default\Cache" ( rd /s /q "%LOCALAPPDATA%\Vivaldi\User Data\Default\Cache" >nul 2>&1 )
 
 call :LogAndEcho [+] Browser caches cleared.
 call :ProgressBar 2 %TOTAL_CLEANUP_STEPS%
@@ -117,28 +93,10 @@ call :ProgressBar 2 %TOTAL_CLEANUP_STEPS%
 :: ==================================================
 call :LogAndEcho.
 call :LogAndEcho [3/%TOTAL_CLEANUP_STEPS%] Clearing common application caches...
-
-:: Discord
-if exist "%APPDATA%\Discord\Cache" (
-    rd /s /q "%APPDATA%\Discord\Cache" >nul 2>&1
-)
-if exist "%APPDATA%\Discord\Code Cache" (
-    rd /s /q "%APPDATA%\Discord\Code Cache" >nul 2>&1
-)
-
-:: Spotify
-if exist "%APPDATA%\Spotify\Browser\Cache" (
-    rd /s /q "%APPDATA%\Spotify\Browser\Cache" >nul 2>&1
-)
-if exist "%LOCALAPPDATA%\Spotify\Data" (
-    rd /s /q "%LOCALAPPDATA%\Spotify\Data" >nul 2>&1
-)
-
-:: Steam (download cache - be careful with this, can break active downloads. For v1.1, let's target smaller caches)
-:: For now, we'll keep Steam out, as clearing download cache can be disruptive. Focus on safer app caches.
-:: if exist "%ProgramFiles(x86)%\Steam\steamapps\downloading" (
-::     rd /s /q "%ProgramFiles(x86)%\Steam\steamapps\downloading" >nul 2>&1
-:: )
+if exist "%APPDATA%\Discord\Cache" ( rd /s /q "%APPDATA%\Discord\Cache" >nul 2>&1 )
+if exist "%APPDATA%\Discord\Code Cache" ( rd /s /q "%APPDATA%\Discord\Code Cache" >nul 2>&1 )
+if exist "%APPDATA%\Spotify\Browser\Cache" ( rd /s /q "%APPDATA%\Spotify\Browser\Cache" >nul 2>&1 )
+if exist "%LOCALAPPDATA%\Spotify\Data" ( rd /s /q "%LOCALAPPDATA%\Spotify\Data" >nul 2>&1 )
 
 call :LogAndEcho [+] Common application caches cleared.
 call :ProgressBar 3 %TOTAL_CLEANUP_STEPS%
@@ -235,7 +193,7 @@ call :LogAndEcho [+] Store and network reset complete.
 call :ProgressBar 9 %TOTAL_CLEANUP_STEPS%
 
 :: ==================================================
-:: Summary
+:: Summary (Using LogAndEcho for guaranteed logging)
 :: ==================================================
 for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do set FINAL_SPACE_MB=%%A
 for /f "usebackq" %%A in (`powershell -Command "$i=%INITIAL_SPACE_MB%; $f=%FINAL_SPACE_MB%; [math]::Round($f - $i)"`) do set SPACE_FREED=%%A
@@ -255,23 +213,4 @@ call :LogAndEcho.
 call :LogAndEcho Press any key to exit...
 timeout /t -1 >nul
 
-exit /b
-
-:: ==================================================
-:: Function: ProgressBar
-:: ==================================================
-:ProgressBar
-set CURRENT_STEP=%1
-set TOTAL_STEPS=%2
-set /a PERCENT=(CURRENT_STEP*100)/TOTAL_STEPS
-set BAR=[
-set /a FILLED=(PERCENT*30)/100
-for /L %%i in (1,1,!FILLED!) do set BAR=!BAR!#
-for /L %%i in (!FILLED!,1,30) do set BAR=!BAR!-
-set BAR=!BAR!%
-
-:: Echo progress bar to console separately to avoid function exit issues
-echo Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete
-:: Also log the same info
-echo [PROGRESS] Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete >> "%LOG_FILE%"
 exit /b
