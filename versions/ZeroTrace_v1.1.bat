@@ -38,15 +38,20 @@ echo !CYAN!!BOLD!==================================================!RESET!
 echo !YELLOW![*] Initializing system cleanup...!RESET!
 echo.
 
+:: Start Timer
+for /f "tokens=1-4 delims=:., " %%i in ("%TIME%") do (
+    set /a "start_seconds=(((%%i*60)+1%%j%%100)*60)+1%%k%%100"
+)
+
 :: Get initial disk space
 for /f "usebackq" %%A in (`powershell -Command "(Get-PSDrive C).Free / 1MB"`) do set INITIAL_SPACE_MB=%%A
 echo !GREEN![+] Initial free space: !INITIAL_SPACE_MB! MB!RESET!
 
 :: ==================================================
-:: [1/13] Temp Files
+:: [1/16] Temp Files
 :: ==================================================
 echo.
-echo !CYAN![1/13] Cleaning temporary files...!RESET!
+echo !CYAN![1/16] Cleaning temporary files...!RESET!
 for /f "usebackq delims=" %%F in (`dir "%TEMP%\*" /a-d /b 2^>nul`) do (
     if exist "%TEMP%\%%F" (
         del /f /q "%TEMP%\%%F" >nul 2>&1
@@ -58,13 +63,13 @@ for /d %%p in ("%TEMP%\*.*") do (
     )
 )
 echo !GRAY![OK] Temp files cleaned.!RESET!
-call :ProgressBar 1 13
+call :ProgressBar 1 16
 
 :: ==================================================
-:: [2/13] Browser Caches
+:: [2/16] Browser Caches
 :: ==================================================
 echo.
-echo !CYAN![2/13] Clearing browser caches...!RESET!
+echo !CYAN![2/16] Clearing browser caches...!RESET!
 
 :: Close browsers if running
 echo !YELLOW![!] Closing browsers to ensure deep clean...!RESET!
@@ -104,13 +109,13 @@ if exist "%APPDATA%\Opera Software\Opera Stable\Cache" (
 )
 
 echo !GRAY![OK] Browser caches cleared.!RESET!
-call :ProgressBar 2 13
+call :ProgressBar 2 16
 
 :: ==================================================
-:: [3/13] Windows Update Cleanup
+:: [3/16] Windows Update Cleanup
 :: ==================================================
 echo.
-echo !CYAN![3/13] Cleaning Windows Update files...!RESET!
+echo !CYAN![3/16] Cleaning Windows Update files...!RESET!
 dism /online /Cleanup-Image /StartComponentCleanup /NoRestart >nul 2>&1
 dism /online /Cleanup-Image /SPSuperseded /NoRestart >nul 2>&1
 
@@ -129,76 +134,91 @@ net start bits >nul 2>&1
 net start msiserver >nul 2>&1
 
 echo !GRAY![OK] Windows Update debris removed.!RESET!
-call :ProgressBar 3 13
+call :ProgressBar 3 16
 
 :: ==================================================
-:: [4/13] Event Logs
+:: [4/16] Windows.old & Upgrade Debris
 :: ==================================================
 echo.
-echo !CYAN![4/13] Clearing Event Logs...!RESET!
+echo !CYAN![4/16] Removing Windows.old and upgrade debris...!RESET!
+if exist "C:\Windows.old" (
+    takeown /F "C:\Windows.old" /R /D Y >nul 2>&1
+    icacls "C:\Windows.old" /grant administrators:F /T >nul 2>&1
+    rd /s /q "C:\Windows.old" >nul 2>&1
+)
+if exist "C:\$Windows.~BT" rd /s /q "C:\$Windows.~BT" >nul 2>&1
+if exist "C:\$Windows.~WS" rd /s /q "C:\$Windows.~WS" >nul 2>&1
+echo !GRAY![OK] Upgrade debris removed.!RESET!
+call :ProgressBar 4 16
+
+:: ==================================================
+:: [5/16] Event Logs
+:: ==================================================
+echo.
+echo !CYAN![5/16] Clearing Event Logs...!RESET!
 for /f "tokens=*" %%i in ('wevtutil el') do wevtutil cl "%%i" >nul 2>&1
 echo !GRAY![OK] Event logs cleared.!RESET!
-call :ProgressBar 4 13
+call :ProgressBar 5 16
 
 :: ==================================================
-:: [5/13] Windows Logs
+:: [6/16] Windows Logs
 :: ==================================================
 echo.
-echo !CYAN![5/13] Cleaning Windows logs...!RESET!
+echo !CYAN![6/16] Cleaning Windows logs...!RESET!
 if exist "C:\Windows\Logs" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Logs\*" /a-d /b 2^>nul`) do del /f /q "C:\Windows\Logs\%%F" >nul 2>&1
 )
 echo !GRAY![OK] Windows logs cleaned.!RESET!
-call :ProgressBar 5 13
+call :ProgressBar 6 16
 
 :: ==================================================
-:: [6/13] Prefetch
+:: [7/16] Prefetch
 :: ==================================================
 echo.
-echo !CYAN![6/13] Clearing Prefetch...!RESET!
+echo !CYAN![7/16] Clearing Prefetch...!RESET!
 if exist "C:\Windows\Prefetch" (
     for /f "usebackq delims=" %%F in (`dir "C:\Windows\Prefetch\*.pf" /b 2^>nul`) do del /f /q "C:\Windows\Prefetch\%%F" >nul 2>&1
 )
 echo !GRAY![OK] Prefetch files removed.!RESET!
-call :ProgressBar 6 13
+call :ProgressBar 7 16
 
 :: ==================================================
-:: [7/13] Recycle Bin
+:: [8/16] Recycle Bin
 :: ==================================================
 echo.
-echo !CYAN![7/13] Emptying Recycle Bin...!RESET!
+echo !CYAN![8/16] Emptying Recycle Bin...!RESET!
 PowerShell.exe -Command "Clear-RecycleBin -Force -ErrorAction SilentlyContinue" >nul 2>&1
 echo !GRAY![OK] Recycle Bin emptied.!RESET!
-call :ProgressBar 7 13
+call :ProgressBar 8 16
 
 :: ==================================================
-:: [8/13] Store Cache + Network
+:: [9/16] Store Cache + Network
 :: ==================================================
 echo.
-echo !CYAN![8/13] Resetting Store cache and network...!RESET!
+echo !CYAN![9/16] Resetting Store cache and network...!RESET!
 wsreset.exe >nul 2>&1
 ipconfig /flushdns >nul 2>&1
 netsh winsock reset >nul 2>&1
 netsh winhttp reset proxy >nul 2>&1
 echo !GRAY![OK] Store and network reset complete.!RESET!
-call :ProgressBar 8 13
+call :ProgressBar 9 16
 
 :: ==================================================
-:: [9/13] Privacy: Recent Files & Jump Lists
+:: [10/16] Privacy: Recent Files & Jump Lists
 :: ==================================================
 echo.
-echo !CYAN![9/13] Clearing Recent Files and Jump Lists...!RESET!
+echo !CYAN![10/16] Clearing Recent Files and Jump Lists...!RESET!
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\*" >nul 2>&1
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\AutomaticDestinations\*" >nul 2>&1
 del /f /q /s "%AppData%\Microsoft\Windows\Recent\CustomDestinations\*" >nul 2>&1
 echo !GRAY![OK] Privacy trails removed.!RESET!
-call :ProgressBar 9 13
+call :ProgressBar 10 16
 
 :: ==================================================
-:: [10/13] System Maintenance: Cache & Error Reports
+:: [11/16] System Maintenance: Cache & Error Reports
 :: ==================================================
 echo.
-echo !CYAN![10/13] Cleaning system caches and error reports...!RESET!
+echo !CYAN![11/16] Cleaning system caches and error reports...!RESET!
 :: Thumbnail Cache
 del /f /s /q "%LocalAppData%\Microsoft\Windows\Explorer\thumbcache_*.db" >nul 2>&1
 :: Icon Cache
@@ -211,15 +231,14 @@ if exist "%LocalAppData%\Microsoft\Windows\WER\ReportQueue" rd /s /q "%LocalAppD
 :: Delivery Optimization
 if exist "C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Cache" rd /s /q "C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Cache" >nul 2>&1
 echo !GRAY![OK] System maintenance complete.!RESET!
-call :ProgressBar 10 13
+call :ProgressBar 11 16
 
 :: ==================================================
-:: [11/13] App-Specific Caches (VS Code & Discord)
+:: [12/16] VS Code & Discord Caches
 :: ==================================================
 echo.
-echo !CYAN![11/13] Cleaning VS Code and Discord caches...!RESET!
+echo !CYAN![12/16] Cleaning VS Code and Discord caches...!RESET!
 :: Close apps if running
-echo !YELLOW![!] Closing apps to ensure deep clean...!RESET!
 taskkill /f /im Code.exe >nul 2>&1
 taskkill /f /im Discord.exe >nul 2>&1
 
@@ -234,15 +253,45 @@ if exist "%AppData%\discord\Cache" rd /s /q "%AppData%\discord\Cache" >nul 2>&1
 if exist "%AppData%\discord\Code Cache" rd /s /q "%AppData%\discord\Code Cache" >nul 2>&1
 if exist "%AppData%\discord\GPUCache" rd /s /q "%AppData%\discord\GPUCache" >nul 2>&1
 
-echo !GRAY![OK] App-specific caches cleared.!RESET!
-call :ProgressBar 11 13
+echo !GRAY![OK] Dev/Social caches cleared.!RESET!
+call :ProgressBar 12 16
 
 :: ==================================================
-:: [12/13] Advanced Space Reclamation
+:: [13/16] Spotify Media Cache
 :: ==================================================
 echo.
-echo !CYAN![12/13] Reclaiming advanced disk space...!RESET!
-:: DirectX Shader Cache
+echo !CYAN![13/16] Clearing Spotify media cache...!RESET!
+taskkill /f /im Spotify.exe >nul 2>&1
+if exist "%LocalAppData%\Spotify\Storage" rd /s /q "%LocalAppData%\Spotify\Storage" >nul 2>&1
+if exist "%LocalAppData%\Spotify\Users" (
+    for /d %%u in ("%LocalAppData%\Spotify\Users\*") do (
+        if exist "%%u\Cache" rd /s /q "%%u\Cache" >nul 2>&1
+    )
+)
+echo !GRAY![OK] Spotify cache cleared.!RESET!
+call :ProgressBar 13 16
+
+:: ==================================================
+:: [14/16] GPU Shader Caches (NVIDIA/AMD)
+:: ==================================================
+echo.
+echo !CYAN![14/16] Cleaning GPU shader caches...!RESET!
+:: NVIDIA
+if exist "%LocalAppData%\NVIDIA\DXCache" rd /s /q "%LocalAppData%\NVIDIA\DXCache" >nul 2>&1
+if exist "%LocalAppData%\NVIDIA\GLCache" rd /s /q "%LocalAppData%\NVIDIA\GLCache" >nul 2>&1
+if exist "%AppData%\NVIDIA\ComputeCache" rd /s /q "%AppData%\NVIDIA\ComputeCache" >nul 2>&1
+:: AMD
+if exist "%LocalAppData%\AMD\DxCache" rd /s /q "%LocalAppData%\AMD\DxCache" >nul 2>&1
+if exist "%LocalAppData%\AMD\OglCache" rd /s /q "%LocalAppData%\AMD\OglCache" >nul 2>&1
+echo !GRAY![OK] GPU shader caches cleared.!RESET!
+call :ProgressBar 14 16
+
+:: ==================================================
+:: [15/16] Advanced Space Reclamation
+:: ==================================================
+echo.
+echo !CYAN![15/16] Reclaiming advanced disk space...!RESET!
+:: DirectX Shader Cache (Legacy/System)
 if exist "%LocalAppData%\D3DSCache" rd /s /q "%LocalAppData%\D3DSCache" >nul 2>&1
 if exist "%LocalAppData%\Microsoft\DirectX\ShaderCache" rd /s /q "%LocalAppData%\Microsoft\DirectX\ShaderCache" >nul 2>&1
 :: Windows Crash Dumps
@@ -253,13 +302,13 @@ netsh branchcache flush >nul 2>&1
 :: Cryptography SVC Task
 certutil -setreg chain\ChainCacheResyncFiletime @now >nul 2>&1
 echo !GRAY![OK] Advanced space reclaimed.!RESET!
-call :ProgressBar 12 13
+call :ProgressBar 15 16
 
 :: ==================================================
-:: [13/13] Deep Trace Removal (Registry & Shell)
+:: [16/16] Deep Trace Removal (Registry & Shell)
 :: ==================================================
 echo.
-echo !CYAN![13/13] Performing deep trace removal...!RESET!
+echo !CYAN![16/16] Performing deep trace removal...!RESET!
 :: ShellBags (Explorer folder view history)
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU" /f >nul 2>&1
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags" /f >nul 2>&1
@@ -269,7 +318,7 @@ reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist" 
 taskkill /f /im explorer.exe >nul 2>&1
 start explorer.exe >nul 2>&1
 echo !GRAY![OK] Deep traces removed (Explorer restarted).!RESET!
-call :ProgressBar 13 13
+call :ProgressBar 16 16
 
 :: ==================================================
 :: Summary
@@ -279,6 +328,12 @@ for /f "usebackq" %%A in (`powershell -Command "$i=%INITIAL_SPACE_MB%; $f=%FINAL
 for /f "usebackq" %%A in (`powershell -Command "[math]::Round((Get-PSDrive C).Free / 1GB, 2)"`) do set FINAL_SPACE_GB=%%A
 for /f "usebackq" %%A in (`powershell -Command "$d=Get-PSDrive C; [math]::Round(($d.Free + $d.Used) / 1GB, 2)"`) do set TOTAL_SPACE_GB=%%A
 
+:: Calculate Timer
+for /f "tokens=1-4 delims=:., " %%i in ("%TIME%") do (
+    set /a "end_seconds=(((%%i*60)+1%%j%%100)*60)+1%%k%%100"
+)
+set /a "duration=end_seconds-start_seconds"
+
 echo.
 echo !CYAN!!BOLD!==================================================!RESET!
 echo !GREEN!!BOLD!  ZERO TRACE COMPLETE.!RESET!
@@ -286,11 +341,14 @@ echo !CYAN!!BOLD!==================================================!RESET!
 echo  Initial free space: !YELLOW!%INITIAL_SPACE_MB% MB!RESET!
 echo  Final free space:   !YELLOW!%FINAL_SPACE_MB% MB!RESET!
 echo  Space freed:        !GREEN!!BOLD!%SPACE_FREED% MB!RESET!
+echo  Time elapsed:       !CYAN!%duration% seconds!RESET!
 echo !GRAY!--------------------------------------------------!RESET!
 echo  Available Storage:  !CYAN!!BOLD!%FINAL_SPACE_GB% GB of %TOTAL_SPACE_GB% GB!RESET!
 echo !CYAN!!BOLD!==================================================!RESET!
 echo.
 echo !GREEN![OK] System cleaned. Zero trace left behind.!RESET!
+echo.
+echo !GRAY!Sovereign Systems ^| Built by Wesley ^& WesAI!RESET!
 echo.
 echo Press any key to exit...
 pause >nul

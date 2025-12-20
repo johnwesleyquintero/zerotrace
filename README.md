@@ -19,8 +19,9 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 - 📜 **Log Eradication**: Wipes system event logs and Windows diagnostic logs.
 - ⚡ **Prefetch & ShellBags**: Removes app execution history and folder view history for maximum privacy.
 - 🗑️ **Recycle Bin & Store**: Empties bin and resets Microsoft Store/Network caches.
-- 🖥️ **App-Specific Cleaning**: **New in v1.1!** Cleans caches for VS Code and Discord.
-- 🚀 **Advanced Space Reclamation**: DirectX Shader cache, crash dumps, and BranchCache.
+- 🖥️ **App-Specific Cleaning**: **New in v1.1!** Cleans caches for VS Code, Discord, and Spotify.
+- 🎮 **Final Boss Cleanup**: **New!** Removes `Windows.old`, and GPU Shader Caches (NVIDIA/AMD).
+- 📊 **Real-Time Storage Metrics**: Displays total disk space, space freed, and cleanup duration.
 - 🎨 **Modern Terminal UI**: Color-coded status updates and a dynamic progress bar.
 - 🔍 **100% Open Source**: Inspect every line. No magic.
 
@@ -46,9 +47,10 @@ The standalone binary automatically requests Administrator privileges.
 
 **ZeroTrace v1.1.0**
 - **Portable EXE**: Standalone, admin-enabled, and branded. [Download v1.1.exe](./build/ZeroTrace_v1.1.exe)
-- **Improved UI**: ANSI color support and refined progress tracking.
-- **Deep Cleaning**: Added VS Code, Discord, and ShellBag scrubbing.
-- **Performance**: Optimized disk space calculation and force-close logic for locked apps.
+- **Final Boss Features**: Added Windows.old, Spotify, and GPU Shader cache removal.
+- **Improved UI**: ANSI color support, refined progress tracking, and cleanup duration timer.
+- **Deep Storage Insights**: Now displays total system storage availability alongside space freed.
+- **Privacy Hardening**: Enhanced ShellBag and UserAssist scrubbing for zero trace.
 
 ---
 
@@ -67,7 +69,7 @@ This tool was born in the trenches of VM operations — built to be **trusted, n
 
 MIT License — free to use, modify, and distribute.
 
-**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyquintero) / WesAI Systems**  
+**Made with clarity by Wesley & WesAI**  
 Sovereign systems. Clean code. No magic.
 
 ---
