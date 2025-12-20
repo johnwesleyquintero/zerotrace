@@ -39,7 +39,7 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 Perfect for VMs or automated environments:
 ```powershell
 # Download and run in one go
-$Url = "https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe"
+$Url = "https://github.com/johnwesleyquintero/zerotrace/blob/main/release/latest/download/ZeroTrace.exe"
 $OutFile = "$env:TEMP\ZeroTrace.exe"
 Invoke-WebRequest -Uri $Url -OutFile $OutFile
 Start-Process -Wait -FilePath $OutFile -Verb RunAs
