@@ -1,4 +1,6 @@
 # ZeroTrace
+<img src="assets/zero-trace-icon.png" width="200px" alt="ZeroTrace Icon"/>
+
  
 A lightweight, transparent Windows cleanup utility that leaves **zero trace** behind.  
 Deletes temp files, caches, logs, update junk, and more — with real-time feedback and no telemetry.
