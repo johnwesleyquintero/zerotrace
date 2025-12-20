@@ -78,7 +78,7 @@ if %FULL_RUN%==1 call :RecycleBinCleanup
 if %FULL_RUN%==1 call :StoreNetworkReset
 
 :: ==================================================
-:: [9/9] Lightweight Disk Audit (new for 1.1)
+:: [9/9] Lightweight Disk Audit + Auto-Clean
 :: ==================================================
 if %RUN_DISKSCAN%==1 (
     call :DiskScan
@@ -203,20 +203,22 @@ exit /b
 
 :DiskScan
 echo.
-echo [9/9] Running Disk Scan...
+echo.
+echo [9/9] Running Disk Scan + Auto-Clean...
 
 set "SCAN_ROOT=C:\"
 set "THRESHOLD_MB=1"
+set TOTAL_DELETED=0
 set TOTAL_IGNORED=0
-set TOTAL_LARGE=0
 
 for /r "%SCAN_ROOT%" %%F in (*) do (
     for /f "usebackq" %%A in (`powershell -Command "(Get-Item '%%F').Length / 1MB"`) do (
         set FILE_SIZE_MB=%%A
         set FILE_SIZE_MB=!FILE_SIZE_MB:~0,10!
         if !FILE_SIZE_MB! GEQ %THRESHOLD_MB% (
-            echo Large file: %%F - !FILE_SIZE_MB! MB
-            set /a TOTAL_LARGE+=1
+            echo Deleting: %%F - !FILE_SIZE_MB! MB
+            del /f /q "%%F" >nul 2>&1
+            set /a TOTAL_DELETED+=1
         ) else (
             set /a TOTAL_IGNORED+=1
         )
@@ -224,7 +226,7 @@ for /r "%SCAN_ROOT%" %%F in (*) do (
 )
 
 echo.
-echo Scan complete. !TOTAL_LARGE! large files found, !TOTAL_IGNORED! files ignored (smaller than %THRESHOLD_MB% MB).
+echo Auto-clean complete. !TOTAL_DELETED! files deleted, !TOTAL_IGNORED! files ignored (smaller than %THRESHOLD_MB% MB).
 call :ProgressBar 9 9
 exit /b
 
