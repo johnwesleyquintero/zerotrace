@@ -51,8 +51,6 @@ The tool **pauses at the end** so you can review the cleanup summary — your vi
 
 ## 📦 Releases
 
-Pre-compiled, portable `.exe` builds are available in **[Releases](https://github.com/johnwesleyquintero/zerotrace/releases)**.
-
 **ZeroTrace v1.0.0** is available now!
 - **[Download v1.0.0](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.0.0)**
 - `ZeroTrace.exe` (portable, admin-enabled executable)
