@@ -36,13 +36,13 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 > ⚠️ Administrator rights are required for system-level cleanup.
 
 ### Option 2: Use the Portable EXE (from GitHub Releases)
-Perfect for VMs or automated environments:
+Perfect for VMs or automated environments. For `v1.0.0`:
 ```powershell
 # Download and run in one go
-$Url = "https://github.com/johnwesleyquintero/zerotrace/blob/main/release/latest/download/ZeroTrace.exe"
-$OutFile = "$env:TEMP\ZeroTrace.exe"
-Invoke-WebRequest -Uri $Url -OutFile $OutFile
-Start-Process -Wait -FilePath $OutFile -Verb RunAs
+$u = "https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe"
+$o = "$env:TEMP\ZeroTrace.exe"
+Invoke-WebRequest $u -OutFile $o
+Start-Process -Wait $o -Verb RunAs
 ```
 
 The tool **pauses at the end** so you can review the cleanup summary — your victory lap. ✅
@@ -51,7 +51,14 @@ The tool **pauses at the end** so you can review the cleanup summary — your vi
 
 ## 📦 Releases
 
-Pre-compiled, portable `.exe` builds are available in the local `release` folder and also in **[Releases](https://github.com/johnwesleyquintero/zerotrace/releases)**.  
+Pre-compiled, portable `.exe` builds are available in the local `release` folder and also in **[Releases](https://github.com/johnwesleyquintero/zerotrace/releases)**.
+
+**ZeroTrace v1.0.0** is available now!
+- **[Download v1.0.0](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.0.0)**
+- `ZeroTrace.exe` (portable, admin-enabled executable)
+- `ZeroTrace.bat` (full source script, 100% auditable)
+- `MIT License` (free to use, modify, and distribute)
+
 Each release includes:
 - `ZeroTrace.exe` (signed, admin-enabled, branded)
 - `ZeroTrace.bat` (source script)
