@@ -67,7 +67,6 @@ Each release includes:
 - **No data collection** — zero telemetry, ever  
 - **No external dependencies** — runs on vanilla Windows 10/11  
 - **Fully auditable** — pure batch script  
-- **Compile yourself** to verify (instructions in `/build`)
 
 This tool was born in the trenches of VM operations — built to be **trusted, not just used**.
 
