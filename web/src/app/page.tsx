@@ -63,7 +63,7 @@ export default function Home() {
         </p>
         <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row">
           <a 
-            href="https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace_v1.1.exe"
+            href="https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace.exe"
             className="group flex h-14 items-center gap-3 rounded-xl bg-white px-8 text-lg font-bold text-black transition-all hover:bg-zinc-200 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
           >
             <Download className="h-5 w-5 transition-transform group-hover:-translate-y-1" />
