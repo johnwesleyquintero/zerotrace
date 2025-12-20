@@ -167,7 +167,7 @@ echo Final free space:   %FINAL_SPACE_MB% MB
 echo Space freed:        %SPACE_FREED% MB
 echo ==================================================
 echo.
-echo [✓] System cleaned. Zero trace left behind.
+echo [OK] System cleaned. Zero trace left behind.
 echo.
 echo Press any key to exit...
 timeout /t -1 >nul
