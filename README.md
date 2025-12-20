@@ -35,12 +35,14 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 
 > ⚠️ Administrator rights are required for system-level cleanup.
 
-### Option 2: Use the Portable EXE (from `release` folder)
+### Option 2: Use the Portable EXE (from GitHub Releases)
 Perfect for VMs or automated environments:
 ```powershell
-# Navigate to the release folder and run
-cd release
-.\ZeroTrace.exe
+# Download and run in one go
+$Url = "https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe"
+$OutFile = "$env:TEMP\ZeroTrace.exe"
+Invoke-WebRequest -Uri $Url -OutFile $OutFile
+Start-Process -Wait -FilePath $OutFile -Verb RunAs
 ```
 
 The tool **pauses at the end** so you can review the cleanup summary — your victory lap. ✅
