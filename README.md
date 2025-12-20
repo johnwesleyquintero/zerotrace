@@ -30,7 +30,7 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 ## ⚙️ Usage
 
 ### Option 1: Run the Batch Script
-1. Download [`ZeroTrace.bat`](https://github.com/johnwesleyquintero/zerotrace/blob/main/release/latest/download/ZeroTrace.bat)
+1. Download [`ZeroTrace.bat`](https://github.com/johnwesleyquintero/zerotrace/blob/main/ZeroTrace.bat)
 2. **Right-click → Run as administrator**
 
 > ⚠️ Administrator rights are required for system-level cleanup.
