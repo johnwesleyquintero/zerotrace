@@ -32,12 +32,12 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 The standalone binary automatically requests Administrator privileges.
 
 1. Download the version you need:
-   - [**ZeroTrace (Latest Stable)**](./build/ZeroTrace.exe)
-   - [**ZeroTrace v1.1 (Branded & Refined)**](./build/ZeroTrace_v1.1.exe)
+   - [**ZeroTrace (Latest Stable)**](https://github.com/johnwesleyquintero/zerotrace/raw/main/build/ZeroTrace.exe)
+   - [**ZeroTrace v1.1 (Branded & Refined)**](https://github.com/johnwesleyquintero/zerotrace/raw/main/build/ZeroTrace_v1.1.exe)
 2. **Double-click to run.**
 
 ### Option 2: Run the Batch Script
-1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/blob/main/versions/ZeroTrace_v1.1.bat)
+1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/raw/main/versions/ZeroTrace_v1.1.bat)
 2. **Right-click → Run as administrator**
 
 ---
