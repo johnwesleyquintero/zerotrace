@@ -77,7 +77,7 @@ This tool was born in the trenches of VM operations — built to be **trusted, n
 
 MIT License — free to use, modify, and distribute.
 
-**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyquintero)**  
+**Made with clarity by [John Wesley Quintero](https://github.com/johnwesleyquintero) / WesAI Systems**  
 Sovereign systems. Clean code. No magic.
 
 ---
