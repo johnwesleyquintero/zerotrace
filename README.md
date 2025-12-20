@@ -7,6 +7,12 @@ Deletes temp files, caches, logs, update junk, and more — with real-time feedb
 
 Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand repeatability, clarity, and control.
 
+---
+
+### 📥 [**Download Latest Release (v1.1.0)**](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.1.0)
+
+---
+
 > *"If it’s not needed — it’s gone."*
 
 ---
@@ -20,7 +26,7 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 - ⚡ **Prefetch & ShellBags**: Removes app execution history and folder view history for maximum privacy.
 - 🗑️ **Recycle Bin & Store**: Empties bin and resets Microsoft Store/Network caches.
 - 🖥️ **App-Specific Cleaning**: **New in v1.1!** Cleans caches for VS Code, Discord, and Spotify.
-- 🎮 **Final Boss Cleanup**: **New!** Removes `Windows.old`, and GPU Shader Caches (NVIDIA/AMD).
+- 🛠️ **Extended System Cleanup**: **New!** Removes `Windows.old`, and GPU Shader Caches (NVIDIA/AMD).
 - 📊 **Real-Time Storage Metrics**: Displays total disk space, space freed, and cleanup duration.
 - 🎨 **Modern Terminal UI**: Color-coded status updates and a dynamic progress bar.
 - 🔍 **100% Open Source**: Inspect every line. No magic.
@@ -32,13 +38,13 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 ### Option 1: The Portable Executable (Recommended)
 The standalone binary automatically requests Administrator privileges.
 
-1. Download the version you need:
-   - [**ZeroTrace (Latest Stable)**](https://github.com/johnwesleyquintero/zerotrace/raw/main/build/ZeroTrace.exe)
-   - [**ZeroTrace v1.1 (Branded & Refined)**](https://github.com/johnwesleyquintero/zerotrace/raw/main/build/ZeroTrace_v1.1.exe)
+1. Download the version you need from the [**Releases Page**](https://github.com/johnwesleyquintero/zerotrace/releases/latest):
+   - [**ZeroTrace_v1.1.exe** (Recommended)](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.exe)
+   - [**ZeroTrace.exe** (Legacy v1.0)](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.0.0/ZeroTrace.exe)
 2. **Double-click to run.**
 
 ### Option 2: Run the Batch Script
-1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/raw/main/versions/ZeroTrace_v1.1.bat)
+1. Download [`ZeroTrace_v1.1.bat`](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.bat)
 2. **Right-click → Run as administrator**
 
 ---
@@ -46,11 +52,9 @@ The standalone binary automatically requests Administrator privileges.
 ## 📦 Releases
 
 **ZeroTrace v1.1.0**
-- **Portable EXE**: Standalone, admin-enabled, and branded. [Download v1.1.exe](./build/ZeroTrace_v1.1.exe)
-- **Final Boss Features**: Added Windows.old, Spotify, and GPU Shader cache removal.
-- **Improved UI**: ANSI color support, refined progress tracking, and cleanup duration timer.
-- **Deep Storage Insights**: Now displays total system storage availability alongside space freed.
-- **Privacy Hardening**: Enhanced ShellBag and UserAssist scrubbing for zero trace.
+- **Official Release**: [**View v1.1.0 on GitHub**](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.1.0)
+- **Portable EXE**: Standalone, admin-enabled. [**Download v1.1.0 EXE**](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace_v1.1.exe)
+- **Key Features**: Windows.old removal, Spotify/GPU cache cleanup, storage metrics, and UI overhaul.
 
 ---
 

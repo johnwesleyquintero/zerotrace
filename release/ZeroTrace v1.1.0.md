@@ -1,6 +1,6 @@
-## ZeroTrace v1.1.0 – The "Final Boss" Update 🎮
+## ZeroTrace v1.1.0 – Extended System Cleanup Update
 
-ZeroTrace v1.1.0 is here, and it's a massive leap forward. This release transforms the tool into a comprehensive "Final Boss" cleanup utility, adding high-impact targets, refined UI, and deeper system insights.
+ZeroTrace v1.1.0 is here, and it's a massive leap forward. This release transforms the tool into a comprehensive advanced cleanup utility, adding high-impact targets, refined UI, and deeper system insights.
 
 > *"More than a cleanup — it's a system reset."*
 <img width="200" height="200" alt="zero-trace-icon" src="https://github.com/user-attachments/assets/16f5b14f-a347-4880-b0be-eedfcb50e277" />
@@ -9,7 +9,7 @@ ZeroTrace v1.1.0 is here, and it's a massive leap forward. This release transfor
 
 ### 🚀 What's New in v1.1.0
 
-#### 🎮 "Final Boss" Cleanup Targets
+#### 🛠️ Extended Cleanup Targets
 - **Windows.old Removal**: Reclaim up to 20GB+ of space from previous Windows installations.
 - **Spotify Media Cache**: Wipes hidden media storage that grows indefinitely.
 - **GPU Shader Caches**: Clears NVIDIA (DXCache/GLCache) and AMD (DxCache) shader caches to fix micro-stuttering and refresh performance.
