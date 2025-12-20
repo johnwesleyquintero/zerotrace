@@ -29,8 +29,11 @@ Built for **VM hygiene**, **developer workflows**, and **ops teams** who demand 
 ## ⚙️ Usage
 
 ### Option 1: The Portable Executable (Recommended)
-The `ZeroTrace.exe` is a standalone binary that automatically requests Administrator privileges.
-1. Download [`ZeroTrace.exe`](https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace.exe)
+The standalone binary automatically requests Administrator privileges.
+
+1. Download the version you need:
+   - [**ZeroTrace (Latest Stable)**](./build/ZeroTrace.exe)
+   - [**ZeroTrace v1.1 (Branded & Refined)**](./build/ZeroTrace_v1.1.exe)
 2. **Double-click to run.**
 
 ### Option 2: Run the Batch Script
@@ -41,8 +44,8 @@ The `ZeroTrace.exe` is a standalone binary that automatically requests Administr
 
 ## 📦 Releases
 
-**ZeroTrace v1.1.0** (Coming Soon)
-- **Portable EXE**: Standalone, admin-enabled, and branded.
+**ZeroTrace v1.1.0**
+- **Portable EXE**: Standalone, admin-enabled, and branded. [Download v1.1.exe](./build/ZeroTrace_v1.1.exe)
 - **Improved UI**: ANSI color support and refined progress tracking.
 - **Deep Cleaning**: Added VS Code, Discord, and ShellBag scrubbing.
 - **Performance**: Optimized disk space calculation and force-close logic for locked apps.
