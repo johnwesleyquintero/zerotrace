@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 :: =====================================================
 :: ZeroTrace v1.1
 :: A sovereign Windows cleanup utility — leaves zero trace.
-:: https://github.com/johnwesleyquintero/zerotrace
+:: https://github.com/johnwesleyquintero/zerotrace  
 :: =====================================================
 
 :: =====================================================
@@ -39,7 +39,7 @@ if errorlevel 1 (
 
 call :LogAndEcho ==================================================
 call :LogAndEcho ZeroTrace v1.1 - Leaving Zero Trace
-call :LogAndEcho https://github.com/johnwesleyquintero/zerotrace
+call :LogAndEcho https://github.com/johnwesleyquintero/zerotrace  
 call :LogAndEcho ==================================================
 call :LogAndEcho Starting system cleanup...
 call :LogAndEcho.
@@ -268,6 +268,10 @@ set BAR=[
 set /a FILLED=(PERCENT*30)/100
 for /L %%i in (1,1,!FILLED!) do set BAR=!BAR!#
 for /L %%i in (!FILLED!,1,30) do set BAR=!BAR!-
-set BAR=!BAR!]
-call :LogAndEcho Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete
+set BAR=!BAR!%
+
+:: Echo progress bar to console separately to avoid function exit issues
+echo Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete
+:: Also log the same info
+echo [PROGRESS] Progress !CURRENT_STEP!/!TOTAL_STEPS! !BAR! !PERCENT!%% complete >> "%LOG_FILE%"
 exit /b
