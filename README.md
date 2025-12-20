@@ -56,6 +56,10 @@ The standalone binary automatically requests Administrator privileges.
 **ZeroTrace v1.1.0**
 - **Official Release**: [**View v1.1.0 on GitHub**](https://github.com/johnwesleyquintero/zerotrace/releases/tag/v1.1.0)
 - **Portable EXE**: Standalone, admin-enabled. [**Download v1.1.0 EXE**](https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace_v1.1.exe)
+- **Or run via PowerShell (ideal for VMs):**
+```powershell
+$z = "$env:TEMP\zt.exe"; irm https://github.com/johnwesleyquintero/zerotrace/releases/latest/download/ZeroTrace_v1.1.exe -OutFile $z; Start-Process -Wait $z -Verb RunAs; Remove-Item $z
+```
 - **Key Features**: Windows.old removal, Spotify/GPU cache cleanup, storage metrics, and UI overhaul.
 
 ---
