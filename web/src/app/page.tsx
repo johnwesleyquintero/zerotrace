@@ -70,11 +70,11 @@ export default function Home() {
             Download v1.1.0 EXE
           </a>
           <a 
-            href="https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.1.0/ZeroTrace_v1.1.bat"
+            href="https://github.com/johnwesleyquintero/zerotrace/releases/download/v1.2.0/ZeroTrace_v1.2.bat"
             className="flex h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-8 text-lg font-bold text-white transition-all hover:bg-white/10"
           >
             <Terminal className="h-5 w-5" />
-            View Source (BAT)
+            View Source (BAT v1.2.0)
           </a>
         </div>
       </header>
